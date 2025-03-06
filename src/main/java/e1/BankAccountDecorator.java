@@ -3,9 +3,13 @@ package e1;
 public class BankAccountDecorator implements BankAccount{
 
     protected final BankAccount decoratedAccount;
+    private final WithdrawalPolicy withdrawalPolicy;
+    private final FeePolicy feePolicy;
 
-    public BankAccountDecorator(BankAccount decoratedAccount) {
+    public BankAccountDecorator(BankAccount decoratedAccount, WithdrawalPolicy withdrawalPolicy, FeePolicy feePolicy) {
         this.decoratedAccount = decoratedAccount;
+        this.withdrawalPolicy = withdrawalPolicy;
+        this.feePolicy = feePolicy;
     }
 
     @Override
@@ -20,6 +24,8 @@ public class BankAccountDecorator implements BankAccount{
 
     @Override
     public void withdraw(int amount) {
-        decoratedAccount.withdraw(amount);
+        withdrawalPolicy.validateWithdrawal(decoratedAccount.getBalance(), amount);
+        int fee = feePolicy.calculateFee(amount);
+        decoratedAccount.withdraw(amount + fee);
     }
 }

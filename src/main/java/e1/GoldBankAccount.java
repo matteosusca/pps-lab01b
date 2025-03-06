@@ -1,28 +1,16 @@
 package e1;
 
-public class GoldBankAccount implements BankAccount {
+public class GoldBankAccount extends BankAccountDecorator {
 
-    private final BankAccount base;
-
-    public GoldBankAccount(BankAccount base) {
-        this.base = base;
-    }
-
-    @Override
-    public int getBalance() {
-        return base.getBalance();
-    }
-
-    @Override
-    public void deposit(int amount) {
-        base.deposit(amount);
+    public GoldBankAccount(BankAccount decoratedAccount) {
+        super(decoratedAccount);
     }
 
     @Override
     public void withdraw(int amount) {
-        if (base.getBalance() - amount < -500) {
+        if (decoratedAccount.getBalance() - amount < -500) {
             throw new IllegalStateException("Overdraft limit exceeded");
         }
-        base.withdraw(amount);
+        decoratedAccount.withdraw(amount);
     }
 }

@@ -10,13 +10,19 @@ public class GoldBankAccountTest extends BankAccountTest {
     public void testCanWithdraw() {
         this.account.deposit(1000);
         this.account.withdraw(200);
-        assertEquals(799, this.account.getBalance());
+        assertEquals(800, this.account.getBalance());
     }
 
     @Test
-    public void testCannotWithdrawMoreThanAvailable(){
+    public void testCanWithdrawMoreThanAvailable(){
         this.account.deposit(1000);
-        assertThrows(IllegalStateException.class, () -> this.account.withdraw(1200));
+        assertDoesNotThrow(() -> this.account.withdraw(1200));
+    }
+
+    @Test
+    public void testOverdraftLimitExceeded() {
+        this.account.deposit(1000);
+        assertThrows(IllegalStateException.class, () -> this.account.withdraw(1601));
     }
 
     @Override

@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class BankAccountTest {
 
+    public static final int STANDARD_DEPOSIT = 1000;
+    public static final int STANDARD_WITHDRAW = 200;
     protected BankAccount account;
 
     protected abstract BankAccount createAccount();
@@ -23,7 +25,7 @@ public abstract class BankAccountTest {
 
     @Test
     public void testCanDeposit() {
-        this.account.deposit(1000);
-        assertEquals(1000, this.account.getBalance());
+        this.account.deposit(STANDARD_DEPOSIT);
+        assertEquals(STANDARD_DEPOSIT, this.account.getBalance());
     }
 }
